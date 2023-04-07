@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+.vs/
+/src/DBVBahia.Api/bin/
+/src/DBVBahia.Api/bin/Debug/
+/src/DBVBahia.Api/bin/Debug/net6.0/DBVBahia.Data.pdb
+/src/DBVBahia.Api/bin/Debug/net6.0/DBVBahia.Data.dll
+/src/DBVBahia.Api/bin/Debug/net6.0/DBVBahia.Business.pdb
+/src/DBVBahia.Api/bin/Debug/net6.0/DBVBahia.Business.dll
+/src/DBVBahia.Api/bin/Debug/net6.0/DBVBahia.Api.pdb
+/src/DBVBahia.Api/bin/Debug/net6.0/DBVBahia.Api.dll

@@ -33,7 +33,6 @@ namespace DBVBahia.Api.V1.Controllers
             _appSettings = appSettings.Value;
         }
 
-        //[EnableCors("Development")]
         [HttpPost("nova-conta")]
         public async Task<ActionResult> Registrar(RegisterUserViewModel registerUser)
         {

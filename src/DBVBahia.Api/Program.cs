@@ -13,7 +13,7 @@ builder.Configuration
 
 // ConfigureServices
 
-builder.Services.AddDbContext<MeuDbContext>(options =>
+builder.Services.AddDbContext<DBVBahiaDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });

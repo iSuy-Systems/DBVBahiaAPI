@@ -10,3 +10,15 @@ C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPIComplet
 C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Business\obj\Debug\net6.0\refint\DBVBahia.Business.dll
 C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.pdb
 C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Business\obj\Debug\net6.0\ref\DBVBahia.Business.dll
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\bin\Debug\net6.0\DBVBahia.Business.deps.json
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\bin\Debug\net6.0\DBVBahia.Business.dll
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\bin\Debug\net6.0\DBVBahia.Business.pdb
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.csproj.AssemblyReference.cache
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.AssemblyInfoInputs.cache
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.AssemblyInfo.cs
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.csproj.CoreCompileInputs.cache
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.dll
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\refint\DBVBahia.Business.dll
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.pdb
+C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\ref\DBVBahia.Business.dll

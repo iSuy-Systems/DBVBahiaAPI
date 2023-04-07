@@ -7,7 +7,7 @@ namespace DBVBahia.Data.Repository
 {
     public class FornecedorRepository : Repository<Fornecedor>, IFornecedorRepository
     {
-        public FornecedorRepository(MeuDbContext context) : base(context)
+        public FornecedorRepository(DBVBahiaDbContext context) : base(context)
         {
         }
 

@@ -48,7 +48,6 @@ namespace DBVBahia.Api.V1.Controllers
             return produtoViewModel;
         }
 
-        [ClaimsAuthorize("Produto", "Adicionar")]
         [HttpPost]
         public async Task<ActionResult<ProdutoViewModel>> Adicionar(ProdutoViewModel produtoViewModel)
         {
@@ -66,7 +65,6 @@ namespace DBVBahia.Api.V1.Controllers
             return CustomResponse(produtoViewModel);
         }
 
-        [ClaimsAuthorize("Produto", "Atualizar")]
         [HttpPut("{id:guid}")]
         public async Task<IActionResult> Atualizar(Guid id, ProdutoViewModel produtoViewModel)
         {
@@ -105,7 +103,6 @@ namespace DBVBahia.Api.V1.Controllers
             return CustomResponse(produtoViewModel);
         }
 
-        [ClaimsAuthorize("Produto", "Excluir")]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<ProdutoViewModel>> Excluir(Guid id)
         {
@@ -148,7 +145,6 @@ namespace DBVBahia.Api.V1.Controllers
 
         #region UploadAlternativo
 
-        [ClaimsAuthorize("Produto", "Adicionar")]
         [HttpPost("Adicionar")]
         public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo(
             // Binder personalizado para envio de IFormFile e ViewModel dentro de um FormData compatível com .NET Core 3.1 ou superior (system.text.json)
@@ -170,7 +166,6 @@ namespace DBVBahia.Api.V1.Controllers
         }
         
         [RequestSizeLimit(40000000)]
-        //[DisableRequestSizeLimit]
         [HttpPost("imagem")]
         public ActionResult AdicionarImagem(IFormFile file)
         {

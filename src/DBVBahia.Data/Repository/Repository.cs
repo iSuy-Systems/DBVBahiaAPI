@@ -8,10 +8,10 @@ namespace DBVBahia.Data.Repository
 {
     public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity, new()
     {
-        protected readonly MeuDbContext Db;
+        protected readonly DBVBahiaDbContext Db;
         protected readonly DbSet<TEntity> DbSet;
 
-        protected Repository(MeuDbContext db)
+        protected Repository(DBVBahiaDbContext db)
         {
             Db = db;
             DbSet = db.Set<TEntity>();

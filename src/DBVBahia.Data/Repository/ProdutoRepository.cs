@@ -7,7 +7,7 @@ namespace DBVBahia.Data.Repository
 {
     public class ProdutoRepository : Repository<Produto>, IProdutoRepository
     {
-        public ProdutoRepository(MeuDbContext context) : base(context) { }
+        public ProdutoRepository(DBVBahiaDbContext context) : base(context) { }
 
         public async Task<Produto> ObterProdutoFornecedor(Guid id)
         {
