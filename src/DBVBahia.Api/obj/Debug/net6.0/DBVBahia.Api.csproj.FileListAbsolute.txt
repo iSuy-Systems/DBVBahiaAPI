@@ -406,3 +406,13 @@ C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\refint\DBVBahi
 C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\DBVBahia.Api.pdb
 C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\DBVBahia.Api.genruntimeconfig.cache
 C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\ref\DBVBahia.Api.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\DBVBahia.Api.csproj.AssemblyReference.cache
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\DBVBahia.Api.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\DBVBahia.Api.AssemblyInfoInputs.cache
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\DBVBahia.Api.AssemblyInfo.cs
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\DBVBahia.Api.csproj.CoreCompileInputs.cache
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\DBVBahia.Api.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\DBVBahia.Api.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\DBVBahia.Api.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\refint\DBVBahia.Api.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Api\obj\Debug\net6.0\DBVBahia.Api.pdb

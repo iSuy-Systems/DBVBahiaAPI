@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\src\\API Completa\\DBVBahiaAPI\\src\\DBVBahia.Business\\DBVBahia.Business.csproj": {}
+    "C:\\Users\\jodaias.silva\\source\\repos\\DBVBahiaAPI\\src\\DBVBahia.Business\\DBVBahia.Business.csproj": {}
   },
   "projects": {
-    "C:\\src\\API Completa\\DBVBahiaAPI\\src\\DBVBahia.Business\\DBVBahia.Business.csproj": {
+    "C:\\Users\\jodaias.silva\\source\\repos\\DBVBahiaAPI\\src\\DBVBahia.Business\\DBVBahia.Business.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\src\\API Completa\\DBVBahiaAPI\\src\\DBVBahia.Business\\DBVBahia.Business.csproj",
+        "projectUniqueName": "C:\\Users\\jodaias.silva\\source\\repos\\DBVBahiaAPI\\src\\DBVBahia.Business\\DBVBahia.Business.csproj",
         "projectName": "DBVBahia.Business",
-        "projectPath": "C:\\src\\API Completa\\DBVBahiaAPI\\src\\DBVBahia.Business\\DBVBahia.Business.csproj",
-        "packagesPath": "C:\\Users\\roberio.moreira\\.nuget\\packages\\",
-        "outputPath": "C:\\src\\API Completa\\DBVBahiaAPI\\src\\DBVBahia.Business\\obj\\",
+        "projectPath": "C:\\Users\\jodaias.silva\\source\\repos\\DBVBahiaAPI\\src\\DBVBahia.Business\\DBVBahia.Business.csproj",
+        "packagesPath": "C:\\Users\\jodaias.silva\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\jodaias.silva\\source\\repos\\DBVBahiaAPI\\src\\DBVBahia.Business\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\roberio.moreira\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\jodaias.silva\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -61,7 +61,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.102\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

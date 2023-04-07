@@ -12,7 +12,11 @@ namespace DBVBahia.Api.ViewModels
         public Guid Id { get; set; }
 
 		public string Name { get; set; }
-		public byte[] Image { get; set; }
 
-	}
+        // Evita o erro de conversão de string vazia para IFormFile
+        [JsonIgnore]
+        public IFormFile ImagemUpload { get; set; }
+
+        public string ImagemUpload64 { get; set; }
+    }
 }

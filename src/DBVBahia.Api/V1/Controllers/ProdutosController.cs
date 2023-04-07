@@ -1,240 +1,208 @@
 ﻿using AutoMapper;
 using DBVBahia.Api.Controllers;
-using DBVBahia.Api.Data;
-using DBVBahia.Api.Extensions;
 using DBVBahia.Api.ViewModels;
 using DBVBahia.Business.Intefaces;
 using DBVBahia.Business.Models;
-using DBVBahia.Data.Context;
-using DBVBahia.Data.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DBVBahia.Api.V1.Controllers
 {
-	[Authorize]
-	[ApiVersion("1.0")]
-	[Route("api/v{version:apiVersion}/produtos")]
-	public class ProdutosController : MainController
-	{
-		private readonly IProdutoRepository _produtoRepository;
-		private readonly IPictureRepository _pictureRepository;
-		private readonly IProdutoService _produtoService;
-		private readonly IMapper _mapper;
-		private readonly IHttpContextAccessor _httpContextAccessor;
+    [Authorize]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/produtos")]
+    public class ProdutosController : MainController
+    {
+        private readonly IProdutoRepository _produtoRepository;
+        private readonly IPictureRepository _pictureRepository;
+        private readonly IProdutoService _produtoService;
+        private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-		public ProdutosController(INotificador notificador,
-								  IProdutoRepository produtoRepository,
-								  IProdutoService produtoService,
-								  IMapper mapper,
-								  IUser user,
-								  IPictureRepository imageRepository,
-								  IHttpContextAccessor httpContextAccessor) : base(notificador, user)
-		{
-			_produtoRepository = produtoRepository;
-			_produtoService = produtoService;
-			_mapper = mapper;
-			_pictureRepository = imageRepository;
-			_httpContextAccessor = httpContextAccessor;
-		}
+        public ProdutosController(INotificador notificador,
+                                  IProdutoRepository produtoRepository,
+                                  IProdutoService produtoService,
+                                  IMapper mapper,
+                                  IUser user,
+                                  IPictureRepository imageRepository,
+                                  IHttpContextAccessor httpContextAccessor) : base(notificador, user)
+        {
+            _produtoRepository = produtoRepository;
+            _produtoService = produtoService;
+            _mapper = mapper;
+            _pictureRepository = imageRepository;
+            _httpContextAccessor = httpContextAccessor;
+        }
 
-		[HttpGet]
-		public async Task<IEnumerable<ProdutoViewModel>> ObterTodos()
-		{
-			return _mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosFornecedores());
-		}
+        [HttpGet]
+        public async Task<IEnumerable<ProdutoViewModel>> ObterTodos()
+        {
+            return _mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosFornecedores());
+        }
 
-		[HttpGet("{id:guid}")]
-		public async Task<ActionResult<ProdutoViewModel>> ObterPorId(Guid id)
-		{
-			var produtoViewModel = await ObterProduto(id);
+        [HttpGet("{id:guid}")]
+        public async Task<ActionResult<ProdutoViewModel>> ObterPorId(Guid id)
+        {
+            var produtoViewModel = await ObterProduto(id);
 
-			if (produtoViewModel == null) return NotFound();
+            if (produtoViewModel == null) return NotFound();
 
-			return produtoViewModel;
-		}
+            return produtoViewModel;
+        }
 
-		[HttpPost]
-		public async Task<ActionResult<ProdutoViewModel>> Adicionar(ProdutoViewModel produtoViewModel)
-		{
-			if (!ModelState.IsValid) return CustomResponse(ModelState);
+        [HttpPost]
+        public async Task<ActionResult<ProdutoViewModel>> Adicionar(ProdutoViewModel produtoViewModel)
+        {
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-			var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
-			if (!(await UploadArquivo(produtoViewModel.ImagemUpload, imagemNome)))
-			{
-				return CustomResponse(produtoViewModel);
-			}
+            if (!(await UploadArquivo(produtoViewModel.Picture)))
+            {
+                return CustomResponse(produtoViewModel);
+            }
 
-			produtoViewModel.Imagem = imagemNome;
-			await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
-			return CustomResponse(produtoViewModel);
-		}
+            return CustomResponse(produtoViewModel);
+        }
 
-		[HttpPut("{id:guid}")]
-		public async Task<IActionResult> Atualizar(Guid id, ProdutoViewModel produtoViewModel)
-		{
-			if (id != produtoViewModel.Id)
-			{
-				NotificarErro("Os ids informados não são iguais!");
-				return CustomResponse();
-			}
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> Atualizar(Guid id, ProdutoViewModel produtoViewModel)
+        {
+            if (id != produtoViewModel.Id)
+            {
+                NotificarErro("Os ids informados não são iguais!");
+                return CustomResponse();
+            }
 
-			var produtoAtualizacao = await ObterProduto(id);
+            var produtoAtualizacao = await ObterProduto(id);
 
-			if (string.IsNullOrEmpty(produtoViewModel.Imagem))
-				produtoViewModel.Imagem = produtoAtualizacao.Imagem;
+            if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-			if (!ModelState.IsValid) return CustomResponse(ModelState);
+            if (produtoViewModel.Picture.ImagemUpload != null)
+            {
+                if (!(await UploadArquivo(produtoViewModel.Picture)))
+                {
+                    return CustomResponse(ModelState);
+                }
 
-			if (produtoViewModel.ImagemUpload != null)
-			{
-				var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
-				if (!(await UploadArquivo(produtoViewModel.ImagemUpload, imagemNome)))
-				{
-					return CustomResponse(ModelState);
-				}
+                var pictures = await _pictureRepository.Buscar(i => i.Nome == produtoViewModel.Picture.Name);
 
-				produtoAtualizacao.Imagem = imagemNome;
-			}
+                produtoAtualizacao.Picture = _mapper.Map<PictureViewModel>(pictures.FirstOrDefault());
+            }
 
-			produtoAtualizacao.FornecedorId = produtoViewModel.FornecedorId;
-			produtoAtualizacao.Nome = produtoViewModel.Nome;
-			produtoAtualizacao.Descricao = produtoViewModel.Descricao;
-			produtoAtualizacao.Valor = produtoViewModel.Valor;
-			produtoAtualizacao.Ativo = produtoViewModel.Ativo;
+            produtoAtualizacao.FornecedorId = produtoViewModel.FornecedorId;
+            produtoAtualizacao.Nome = produtoViewModel.Nome;
+            produtoAtualizacao.Descricao = produtoViewModel.Descricao;
+            produtoAtualizacao.Valor = produtoViewModel.Valor;
+            produtoAtualizacao.Ativo = produtoViewModel.Ativo;
 
-			await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
 
-			return CustomResponse(produtoViewModel);
-		}
+            return CustomResponse(produtoViewModel);
+        }
 
-		[HttpDelete("{id:guid}")]
-		public async Task<ActionResult<ProdutoViewModel>> Excluir(Guid id)
-		{
-			var produto = await ObterProduto(id);
+        [HttpDelete("{id:guid}")]
+        public async Task<ActionResult<ProdutoViewModel>> Excluir(Guid id)
+        {
+            var produto = await ObterProduto(id);
 
-			if (produto == null) return NotFound();
+            if (produto == null) return NotFound();
 
-			await _produtoService.Remover(id);
+            await _produtoService.Remover(id);
 
-			return CustomResponse(produto);
-		}
+            return CustomResponse(produto);
+        }
 
-		private async Task<ProdutoViewModel> ObterProduto(Guid id)
-		{
-			return _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterProdutoFornecedor(id));
-		}
+        private async Task<ProdutoViewModel> ObterProduto(Guid id)
+        {
+            return _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterProdutoFornecedor(id));
+        }
 
-		private async Task<bool> UploadArquivo(string arquivo, string imgNome)
-		{
-			if (string.IsNullOrEmpty(arquivo))
-			{
-				NotificarErro("Forneça uma imagem para este produto!");
-				return false;
-			}
+        private async Task<bool> UploadArquivo(PictureViewModel pictureViewModel)
+        {
+            if (string.IsNullOrEmpty(pictureViewModel.ImagemUpload64))
+            {
+                NotificarErro("Forneça uma imagem para este produto!");
+                return false;
+            }
 
-			var imageDataByteArray = Convert.FromBase64String(arquivo);
+            var imageDataByteArray = Convert.FromBase64String(pictureViewModel.ImagemUpload64);
 
-			var imageName = imgNome + ".jpg"; // or .png, .gif, etc.
+            var imageName = pictureViewModel + ".jpg"; // or .png, .gif, etc.
 
-			var imageExists = await _pictureRepository.Buscar(i => i.Nome == imageName);
+            var imageExists = await _pictureRepository.Buscar(i => i.Nome == imageName);
 
-			if (imageExists.Any())
-			{
-				NotificarErro("Já existe um arquivo com este nome!");
-				return false;
-			}
+            if (imageExists.Any())
+            {
+                NotificarErro("Já existe um arquivo com este nome!");
+                return false;
+            }
 
-			var imagem = new Picture
-			{
-				Nome = imageName,
-				Image = imageDataByteArray
-			};
+            var picture = _mapper.Map<Picture>(pictureViewModel);
 
-			await _pictureRepository.Adicionar(imagem);
-			await _pictureRepository.SaveChanges();
+            await _pictureRepository.Adicionar(picture);
 
-			return true;
-		}
+            return true;
+        }
 
-		#region UploadAlternativo
-		[RequestSizeLimit(5222510)]
-		[HttpPost("Adicionar")]
-		public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo([FromForm] ProdutoImagemViewModel produtoViewModel)
-		{
-			if (!ModelState.IsValid)
-			{
-				return CustomResponse(ModelState);
-			}
+        #region UploadAlternativo
 
-			if (produtoViewModel.ImagemUpload.Length > 5222510)
-			{
-				return BadRequest(new FileNotFoundException());
-			}
+        [RequestSizeLimit(5222510)]
+        [HttpPost("Adicionar")]
+        public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo([FromForm] ProdutoViewModel produtoViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return CustomResponse(ModelState);
+            }
 
-			if (!await UploadArquivoAlternativo(produtoViewModel.ImagemUpload))
-			{
-				return CustomResponse(ModelState);
-			}
+            if (produtoViewModel.Picture.ImagemUpload.Length > 5222510)
+            {
+                return BadRequest(new FileNotFoundException());
+            }
 
-			var pictures = await _pictureRepository.Buscar(i => i.Nome == produtoViewModel.ImagemUpload.FileName);
+            if (!await UploadArquivoAlternativo(produtoViewModel.Picture))
+            {
+                return CustomResponse(ModelState);
+            }
 
-			produtoViewModel.PictureId = pictures.FirstOrDefault().Id;
-			await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            var pictures = await _pictureRepository.Buscar(i => i.Nome == produtoViewModel.Picture.ImagemUpload.FileName);
 
-			return CustomResponse(produtoViewModel);
-		}
+            produtoViewModel.Picture = _mapper.Map<PictureViewModel>(pictures.FirstOrDefault());
+            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
-		[HttpPost("imagem")]
-		public ActionResult AdicionarImagem(IFormFile file)
-		{
-			return Ok(file);
-		}
+            return CustomResponse(produtoViewModel);
+        }
 
+        [HttpPost("imagem")]
+        public ActionResult AdicionarImagem(IFormFile file)
+        {
+            return Ok(file);
+        }
 
+        private async Task<bool> UploadArquivoAlternativo(PictureViewModel pictureViewModel)
+        {
+            if (pictureViewModel is null || pictureViewModel.ImagemUpload == null || pictureViewModel.ImagemUpload.Length == 0)
+            {
+                NotificarErro("Forneça uma imagem para este produto!");
+                return false;
+            }
 
-		private async Task<bool> UploadArquivoAlternativo(IFormFile arquivo)
-		{
-			if (arquivo == null || arquivo.Length == 0)
-			{
-				NotificarErro("Forneça uma imagem para este produto!");
-				return false;
-			}
+            var pictures = await _pictureRepository.Buscar(i => i.Nome == pictureViewModel.Name);
 
-			var pictures = await _pictureRepository.Buscar(i => i.Nome == arquivo.FileName);
+            if (pictures.Any())
+            {
+                NotificarErro("Já existe um arquivo com este nome!");
+                return false;
+            }
 
-			if (pictures.Any())
-			{
-				NotificarErro("Já existe um arquivo com este nome!");
-				return false;
-			}
+            var picture = _mapper.Map<Picture>(pictureViewModel);
 
-			var file = arquivo.OpenReadStream();
-			byte[] fileToSave;
+            await _pictureRepository.Adicionar(picture);
 
-			using (MemoryStream ms = new MemoryStream())
-			{
-				await file.CopyToAsync(ms);
-				fileToSave = ms.ToArray();
-			}
+            return true;
+        }
 
-
-			var pictureViewModel = new PictureViewModel
-			{
-				Image = fileToSave,
-				Name = arquivo.FileName
-			};
-
-			var picture = _mapper.Map<Picture>(pictureViewModel);
-
-			await _pictureRepository.Adicionar(picture);
-			await _pictureRepository.SaveChanges();
-
-			return true;
-		}
-
-		#endregion
-	}
+        #endregion UploadAlternativo
+    }
 }
