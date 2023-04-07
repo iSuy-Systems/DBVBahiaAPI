@@ -1,0 +1,15 @@
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\bin\Debug\net6.0\DBVBahia.Data.deps.json
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\bin\Debug\net6.0\DBVBahia.Data.dll
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\bin\Debug\net6.0\DBVBahia.Data.pdb
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\bin\Debug\net6.0\DBVBahia.Business.dll
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\bin\Debug\net6.0\DBVBahia.Business.pdb
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.csproj.AssemblyReference.cache
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.AssemblyInfoInputs.cache
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.AssemblyInfo.cs
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.csproj.CoreCompileInputs.cache
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.csproj.CopyComplete
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.dll
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\obj\Debug\net6.0\refint\DBVBahia.Data.dll
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.pdb
+C:\src\DB2C2636-0FAD-4369-A195-0E759C2E5FD3-02 - API Completa\01 MinhaAPICompleta 6.0\src\DBVBahia.Data\obj\Debug\net6.0\ref\DBVBahia.Data.dll
