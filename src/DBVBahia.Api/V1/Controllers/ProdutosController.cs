@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DBVBahia.Api.Controllers;
-using DBVBahia.Api.Extensions;
 using DBVBahia.Api.ViewModels;
 using DBVBahia.Business.Intefaces;
 using DBVBahia.Business.Models;
@@ -15,21 +14,24 @@ namespace DBVBahia.Api.V1.Controllers
     public class ProdutosController : MainController
     {
         private readonly IProdutoRepository _produtoRepository;
+        private readonly IPictureRepository _pictureRepository;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IFornecedorRepository _fornecedorRepository;
 
-        public ProdutosController(INotificador notificador, 
-                                  IProdutoRepository produtoRepository, 
-                                  IProdutoService produtoService, 
+        public ProdutosController(INotificador notificador,
+                                  IProdutoRepository produtoRepository,
+                                  IProdutoService produtoService,
                                   IMapper mapper,
                                   IUser user,
-                                  IHttpContextAccessor httpContextAccessor) : base(notificador, user)
+                                  IPictureRepository pictureRepository,
+                                  IFornecedorRepository fornecedorRepository) : base(notificador, user)
         {
             _produtoRepository = produtoRepository;
             _produtoService = produtoService;
             _mapper = mapper;
-            _httpContextAccessor = httpContextAccessor;
+            _pictureRepository = pictureRepository;
+            _fornecedorRepository = fornecedorRepository;
         }
 
         [HttpGet]
@@ -53,14 +55,19 @@ namespace DBVBahia.Api.V1.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
-            if (!UploadArquivo(produtoViewModel.ImagemUpload, imagemNome))
+            var produto = _mapper.Map<Produto>(produtoViewModel);
+
+            var fornecedor = await _fornecedorRepository.ObterPorId(produtoViewModel.FornecedorId);
+
+            if (fornecedor == null)
             {
-                return CustomResponse(produtoViewModel);
+                NotificarErro("Fornecedor não encontrado");
+                return CustomResponse();
             }
 
-            produtoViewModel.Imagem = imagemNome;
-            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            fornecedor.Produtos.Add(produto);
+
+            await _fornecedorRepository.Atualizar(fornecedor);
 
             return CustomResponse(produtoViewModel);
         }
@@ -76,20 +83,18 @@ namespace DBVBahia.Api.V1.Controllers
 
             var produtoAtualizacao = await ObterProduto(id);
 
-            if (string.IsNullOrEmpty(produtoViewModel.Imagem))
-                produtoViewModel.Imagem = produtoAtualizacao.Imagem;
-
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            if (produtoViewModel.ImagemUpload != null)
+            if (produtoViewModel.Picture.ImagemUpload != null)
             {
-                var imagemNome = Guid.NewGuid() + "_" + produtoViewModel.Imagem;
-                if (!UploadArquivo(produtoViewModel.ImagemUpload, imagemNome))
+                if (!(await UploadArquivo(produtoViewModel.Picture)))
                 {
                     return CustomResponse(ModelState);
                 }
 
-                produtoAtualizacao.Imagem = imagemNome;
+                var pictures = await _pictureRepository.Buscar(i => i.Nome == produtoViewModel.Picture.Name);
+
+                produtoAtualizacao.Picture = _mapper.Map<PictureViewModel>(pictures.FirstOrDefault());
             }
 
             produtoAtualizacao.FornecedorId = produtoViewModel.FornecedorId;
@@ -120,82 +125,97 @@ namespace DBVBahia.Api.V1.Controllers
             return _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterProdutoFornecedor(id));
         }
 
-        private bool UploadArquivo(string arquivo, string imgNome)
+        private async Task<bool> UploadArquivo(PictureViewModel pictureViewModel)
         {
-            if (string.IsNullOrEmpty(arquivo))
+            if (string.IsNullOrEmpty(pictureViewModel.ImagemUpload64))
             {
                 NotificarErro("Forneça uma imagem para este produto!");
                 return false;
             }
 
-            var imageDataByteArray = Convert.FromBase64String(arquivo);
+            var pictures = await _pictureRepository.Buscar(i => i.Nome == pictureViewModel.Name);
 
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imgNome);
-
-            if (System.IO.File.Exists(filePath))
+            if (pictures.Any())
             {
                 NotificarErro("Já existe um arquivo com este nome!");
                 return false;
             }
 
-            System.IO.File.WriteAllBytes(filePath, imageDataByteArray);
+            var picture = _mapper.Map<Picture>(pictureViewModel);
+
+            await _pictureRepository.Adicionar(picture);
 
             return true;
         }
 
         #region UploadAlternativo
 
+        [RequestSizeLimit(5222510)]
         [HttpPost("Adicionar")]
-        public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo(
-            // Binder personalizado para envio de IFormFile e ViewModel dentro de um FormData compatível com .NET Core 3.1 ou superior (system.text.json)
-            [ModelBinder(BinderType = typeof(ProdutoModelBinder))] 
-            ProdutoImagemViewModel produtoViewModel)
+        public async Task<ActionResult<ProdutoViewModel>> AdicionarAlternativo([FromForm] ProdutoViewModel produtoViewModel)
         {
-            if (!ModelState.IsValid) return CustomResponse(ModelState);
-
-            var imgPrefixo = Guid.NewGuid() + "_";
-            if (!await UploadArquivoAlternativo(produtoViewModel.ImagemUpload, imgPrefixo))
+            if (!ModelState.IsValid)
             {
                 return CustomResponse(ModelState);
             }
 
-            produtoViewModel.Imagem = imgPrefixo + produtoViewModel.ImagemUpload.FileName;
+            if (produtoViewModel.Picture.ImagemUpload.Length > 5222510)
+            {
+                return BadRequest(new FileNotFoundException());
+            }
+
+            if (!await UploadArquivoAlternativo(produtoViewModel.Picture))
+            {
+                return CustomResponse(ModelState);
+            }
+
+            var pictures = await _pictureRepository.Buscar(i => i.Nome == produtoViewModel.Picture.ImagemUpload.FileName);
+
+            produtoViewModel.Picture = _mapper.Map<PictureViewModel>(pictures.FirstOrDefault());
             await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
 
             return CustomResponse(produtoViewModel);
         }
-        
-        [RequestSizeLimit(40000000)]
+
         [HttpPost("imagem")]
         public ActionResult AdicionarImagem(IFormFile file)
         {
             return Ok(file);
         }
 
-        private async Task<bool> UploadArquivoAlternativo(IFormFile arquivo, string imgPrefixo)
+        private async Task<bool> UploadArquivoAlternativo(PictureViewModel pictureViewModel)
         {
-            if (arquivo == null || arquivo.Length == 0)
+            if (pictureViewModel is null || pictureViewModel.ImagemUpload == null || pictureViewModel.ImagemUpload.Length == 0)
             {
                 NotificarErro("Forneça uma imagem para este produto!");
                 return false;
             }
 
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", imgPrefixo + arquivo.FileName);
+            var pictures = await _pictureRepository.Buscar(i => i.Nome == pictureViewModel.Name);
 
-            if (System.IO.File.Exists(path))
+            if (pictures.Any())
             {
                 NotificarErro("Já existe um arquivo com este nome!");
                 return false;
             }
 
-            using (var stream = new FileStream(path, FileMode.Create))
+            var picture = _mapper.Map<Picture>(pictureViewModel);
+
+            var file = pictureViewModel.ImagemUpload.OpenReadStream();
+            byte[] fileToSave;
+
+            using (MemoryStream ms = new MemoryStream())
             {
-                await arquivo.CopyToAsync(stream);
+                await file.CopyToAsync(ms);
+                fileToSave = ms.ToArray();
             }
 
-            return true;
-        }      
+            picture.Image = fileToSave;
 
-        #endregion
+            await _pictureRepository.Adicionar(picture);
+
+            return true;
+        }
+        #endregion UploadAlternativo
     }
 }

@@ -22,7 +22,7 @@ namespace DBVBahia.Api.V1.Controllers
         public FornecedoresController(IFornecedorRepository fornecedorRepository, 
                                       IMapper mapper, 
                                       IFornecedorService fornecedorService,
-                                      INotificador notificador, 
+                                      INotificador notificador,
                                       IEnderecoRepository enderecoRepository,
                                       IUser user) : base(notificador, user)
         {
@@ -36,7 +36,12 @@ namespace DBVBahia.Api.V1.Controllers
         [HttpGet]
         public async Task<IEnumerable<FornecedorViewModel>> ObterTodos()
         {
-            return _mapper.Map<IEnumerable<FornecedorViewModel>>(await _fornecedorRepository.ObterTodos());
+            var fornecedores = await _fornecedorRepository.ObterTodos();
+
+            if (!fornecedores.Any())
+                return new List<FornecedorViewModel>();
+
+            return _mapper.Map<IEnumerable<FornecedorViewModel>>(fornecedores);
         }
 
         [HttpGet("{id:guid}")]

@@ -92,6 +92,25 @@ namespace DBVBahia.Data.Migrations
                     b.ToTable("Fornecedores", (string)null);
                 });
 
+            modelBuilder.Entity("DBVBahia.Business.Models.Picture", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<byte[]>("Image")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("varchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Pictures");
+                });
+
             modelBuilder.Entity("DBVBahia.Business.Models.Produto", b =>
                 {
                     b.Property<Guid>("Id")
@@ -111,13 +130,12 @@ namespace DBVBahia.Data.Migrations
                     b.Property<Guid>("FornecedorId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Imagem")
-                        .IsRequired()
-                        .HasColumnType("varchar(100)");
-
                     b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("varchar(200)");
+
+                    b.Property<Guid>("PictureId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal>("Valor")
                         .HasColumnType("decimal(18,2)");
@@ -125,6 +143,9 @@ namespace DBVBahia.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FornecedorId");
+
+                    b.HasIndex("PictureId")
+                        .IsUnique();
 
                     b.ToTable("Produtos", (string)null);
                 });
@@ -146,7 +167,14 @@ namespace DBVBahia.Data.Migrations
                         .HasForeignKey("FornecedorId")
                         .IsRequired();
 
+                    b.HasOne("DBVBahia.Business.Models.Picture", "Picture")
+                        .WithOne("Produto")
+                        .HasForeignKey("DBVBahia.Business.Models.Produto", "PictureId")
+                        .IsRequired();
+
                     b.Navigation("Fornecedor");
+
+                    b.Navigation("Picture");
                 });
 
             modelBuilder.Entity("DBVBahia.Business.Models.Fornecedor", b =>
@@ -155,6 +183,12 @@ namespace DBVBahia.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Produtos");
+                });
+
+            modelBuilder.Entity("DBVBahia.Business.Models.Picture", b =>
+                {
+                    b.Navigation("Produto")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

@@ -28,3 +28,18 @@ C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data
 C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\refint\DBVBahia.Data.dll
 C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.pdb
 C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\ref\DBVBahia.Data.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\bin\Debug\net6.0\DBVBahia.Data.deps.json
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\bin\Debug\net6.0\DBVBahia.Data.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\bin\Debug\net6.0\DBVBahia.Data.pdb
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\bin\Debug\net6.0\DBVBahia.Business.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\bin\Debug\net6.0\DBVBahia.Business.pdb
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.csproj.AssemblyReference.cache
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.AssemblyInfoInputs.cache
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.AssemblyInfo.cs
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.csproj.CoreCompileInputs.cache
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.csproj.CopyComplete
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\refint\DBVBahia.Data.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\DBVBahia.Data.pdb
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Data\obj\Debug\net6.0\ref\DBVBahia.Data.dll

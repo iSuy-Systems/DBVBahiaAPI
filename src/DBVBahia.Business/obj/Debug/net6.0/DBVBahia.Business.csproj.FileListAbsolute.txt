@@ -22,3 +22,15 @@ C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.
 C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\refint\DBVBahia.Business.dll
 C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.pdb
 C:\src\API Completa\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\ref\DBVBahia.Business.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\bin\Debug\net6.0\DBVBahia.Business.deps.json
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\bin\Debug\net6.0\DBVBahia.Business.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\bin\Debug\net6.0\DBVBahia.Business.pdb
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.csproj.AssemblyReference.cache
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.AssemblyInfoInputs.cache
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.AssemblyInfo.cs
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.csproj.CoreCompileInputs.cache
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\refint\DBVBahia.Business.dll
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\DBVBahia.Business.pdb
+C:\Users\jodaias.silva\Source\Repos\DBVBahiaAPI\src\DBVBahia.Business\obj\Debug\net6.0\ref\DBVBahia.Business.dll

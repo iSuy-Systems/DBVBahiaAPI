@@ -40,5 +40,7 @@ namespace DBVBahia.Api.ViewModels
 
         [ScaffoldColumn(false)]
         public string NomeFornecedor { get; set; }
-    }
+        
+        public Guid PictureId { get; set; }
+	}
 }

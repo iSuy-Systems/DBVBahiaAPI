@@ -34,7 +34,7 @@ namespace DBVBahia.Data.Repository
 
         public virtual async Task Adicionar(TEntity entity)
         {
-            DbSet.Add(entity);
+            await DbSet.AddAsync(entity);
             await SaveChanges();
         }
 
