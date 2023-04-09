@@ -37,6 +37,10 @@ namespace DBVBahia.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(50)");
 
+            // 1 : 1 => Endereco : Fornecedor 
+            builder.HasOne(f => f.Fornecedor)
+                .WithOne(e => e.Endereco);
+
             builder.ToTable("Enderecos");
         }
     }

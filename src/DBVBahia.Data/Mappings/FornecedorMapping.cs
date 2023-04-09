@@ -18,9 +18,18 @@ namespace DBVBahia.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(14)");
 
+            builder.Property(p => p.TipoFornecedor)
+                .IsRequired()
+                .HasColumnType("int");
+
+            builder.Property(p => p.Ativo)
+               .IsRequired()
+               .HasColumnType("bit");
+
             // 1 : 1 => Fornecedor : Endereco
             builder.HasOne(f => f.Endereco)
-                .WithOne(e => e.Fornecedor);
+                .WithOne(e => e.Fornecedor)
+                .OnDelete(DeleteBehavior.Cascade);
 
             // 1 : N => Fornecedor : Produtos
             builder.HasMany(f => f.Produtos)

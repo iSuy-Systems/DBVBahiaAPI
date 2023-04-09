@@ -18,9 +18,15 @@ namespace DBVBahia.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(1000)");
 
-            //builder.Property(p => p.Imagem)
-            //    .IsRequired()
-            //    .HasColumnType("varchar(100)");
+            // 1 : 1 => Produto : Picture
+            builder.HasOne(f => f.Picture)
+                .WithOne(e => e.Produto)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // N : 1 => Fornecedor : Produtos
+            builder.HasOne(f => f.Fornecedor)
+                .WithMany(p => p.Produtos)
+                .HasForeignKey(p => p.FornecedorId);
 
             builder.ToTable("Produtos");
         }

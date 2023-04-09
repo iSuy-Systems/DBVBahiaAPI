@@ -17,21 +17,21 @@ namespace DBVBahia.Api.V1.Controllers
         private readonly IPictureRepository _pictureRepository;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IFornecedorRepository _fornecedorRepository;
 
         public ProdutosController(INotificador notificador,
                                   IProdutoRepository produtoRepository,
                                   IProdutoService produtoService,
                                   IMapper mapper,
                                   IUser user,
-                                  IPictureRepository imageRepository,
-                                  IHttpContextAccessor httpContextAccessor) : base(notificador, user)
+                                  IPictureRepository pictureRepository,
+                                  IFornecedorRepository fornecedorRepository) : base(notificador, user)
         {
             _produtoRepository = produtoRepository;
             _produtoService = produtoService;
             _mapper = mapper;
-            _pictureRepository = imageRepository;
-            _httpContextAccessor = httpContextAccessor;
+            _pictureRepository = pictureRepository;
+            _fornecedorRepository = fornecedorRepository;
         }
 
         [HttpGet]
@@ -55,12 +55,19 @@ namespace DBVBahia.Api.V1.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            if (!(await UploadArquivo(produtoViewModel.Picture)))
+            var produto = _mapper.Map<Produto>(produtoViewModel);
+
+            var fornecedor = await _fornecedorRepository.ObterPorId(produtoViewModel.FornecedorId);
+
+            if (fornecedor == null)
             {
-                return CustomResponse(produtoViewModel);
+                NotificarErro("Fornecedor não encontrado");
+                return CustomResponse();
             }
 
-            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            fornecedor.Produtos.Add(produto);
+
+            await _fornecedorRepository.Atualizar(fornecedor);
 
             return CustomResponse(produtoViewModel);
         }
@@ -126,13 +133,9 @@ namespace DBVBahia.Api.V1.Controllers
                 return false;
             }
 
-            var imageDataByteArray = Convert.FromBase64String(pictureViewModel.ImagemUpload64);
+            var pictures = await _pictureRepository.Buscar(i => i.Nome == pictureViewModel.Name);
 
-            var imageName = pictureViewModel + ".jpg"; // or .png, .gif, etc.
-
-            var imageExists = await _pictureRepository.Buscar(i => i.Nome == imageName);
-
-            if (imageExists.Any())
+            if (pictures.Any())
             {
                 NotificarErro("Já existe um arquivo com este nome!");
                 return false;
@@ -198,11 +201,21 @@ namespace DBVBahia.Api.V1.Controllers
 
             var picture = _mapper.Map<Picture>(pictureViewModel);
 
+            var file = pictureViewModel.ImagemUpload.OpenReadStream();
+            byte[] fileToSave;
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                await file.CopyToAsync(ms);
+                fileToSave = ms.ToArray();
+            }
+
+            picture.Image = fileToSave;
+
             await _pictureRepository.Adicionar(picture);
 
             return true;
         }
-
         #endregion UploadAlternativo
     }
 }

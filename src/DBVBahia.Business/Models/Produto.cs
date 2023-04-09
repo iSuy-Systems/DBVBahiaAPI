@@ -1,4 +1,6 @@
-﻿namespace DBVBahia.Business.Models
+﻿using System.Text.Json.Serialization;
+
+namespace DBVBahia.Business.Models
 {
     public class Produto : Entity
     {
@@ -12,9 +14,10 @@
         public DateTime DataCadastro { get; set; }
         public bool Ativo { get; set; }
 
-
-		/* EF Relations */
+        /* EF Relations */
+        [JsonIgnore]
 		public Fornecedor Fornecedor { get; set; }
+        [JsonIgnore]
         public Picture Picture { get; set; }
     }
 }
