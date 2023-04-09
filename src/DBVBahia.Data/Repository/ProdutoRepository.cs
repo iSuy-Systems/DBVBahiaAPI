@@ -11,13 +11,13 @@ namespace DBVBahia.Data.Repository
 
         public async Task<Produto> ObterProdutoFornecedor(Guid id)
         {
-            return await Db.Produtos.AsNoTracking().Include(f => f.Fornecedor)
+            return await Db.Produtos.AsNoTracking().Include(f => f.Fornecedor).Include(p => p.Picture)
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<IEnumerable<Produto>> ObterProdutosFornecedores()
         {
-            return await Db.Produtos.AsNoTracking().Include(f => f.Fornecedor)
+            return await Db.Produtos.AsNoTracking().Include(f => f.Fornecedor).Include(p=> p.Picture)
                 .OrderBy(p => p.Nome).ToListAsync();
         }
 
