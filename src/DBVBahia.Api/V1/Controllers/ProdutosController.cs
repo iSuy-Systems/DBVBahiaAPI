@@ -55,21 +55,31 @@ namespace DBVBahia.Api.V1.Controllers
         {
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
+
+            if (!ValidUploadArquivo(produtoViewModel.Picture))
+            {
+                return CustomResponse(ModelState);
+            }
+
             var produto = _mapper.Map<Produto>(produtoViewModel);
 
-            var fornecedor = await _fornecedorRepository.ObterPorId(produtoViewModel.FornecedorId);
+            await UpdateProdutoInFornecedor(produto);
+
+            return CustomResponse(produtoViewModel);
+        }
+
+        private async Task UpdateProdutoInFornecedor(Produto produto)
+        {
+            var fornecedor = await _fornecedorRepository.ObterPorId(produto.FornecedorId);
 
             if (fornecedor == null)
             {
                 NotificarErro("Fornecedor não encontrado");
-                return CustomResponse();
             }
 
             fornecedor.Produtos.Add(produto);
 
             await _fornecedorRepository.Atualizar(fornecedor);
-
-            return CustomResponse(produtoViewModel);
         }
 
         [HttpPut("{id:guid}")]
@@ -85,27 +95,17 @@ namespace DBVBahia.Api.V1.Controllers
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
-            if (produtoViewModel.Picture.ImagemUpload != null)
-            {
-                if (!(await UploadArquivo(produtoViewModel.Picture)))
-                {
-                    return CustomResponse(ModelState);
-                }
-
-                var pictures = await _pictureRepository.Buscar(i => i.Nome == produtoViewModel.Picture.Name);
-
-                produtoAtualizacao.Picture = _mapper.Map<PictureViewModel>(pictures.FirstOrDefault());
-            }
-
             produtoAtualizacao.FornecedorId = produtoViewModel.FornecedorId;
             produtoAtualizacao.Nome = produtoViewModel.Nome;
             produtoAtualizacao.Descricao = produtoViewModel.Descricao;
             produtoAtualizacao.Valor = produtoViewModel.Valor;
             produtoAtualizacao.Ativo = produtoViewModel.Ativo;
 
-            await _produtoService.Atualizar(_mapper.Map<Produto>(produtoAtualizacao));
+            var produto = _mapper.Map<Produto>(produtoAtualizacao);
 
-            return CustomResponse(produtoViewModel);
+            await UpdateProdutoInFornecedor(produto);
+
+            return CustomResponse(produtoAtualizacao);
         }
 
         [HttpDelete("{id:guid}")]
@@ -125,26 +125,13 @@ namespace DBVBahia.Api.V1.Controllers
             return _mapper.Map<ProdutoViewModel>(await _produtoRepository.ObterProdutoFornecedor(id));
         }
 
-        private async Task<bool> UploadArquivo(PictureViewModel pictureViewModel)
+        private bool ValidUploadArquivo(PictureViewModel pictureViewModel)
         {
             if (string.IsNullOrEmpty(pictureViewModel.ImagemUpload64))
             {
                 NotificarErro("Forneça uma imagem para este produto!");
                 return false;
             }
-
-            var pictures = await _pictureRepository.Buscar(i => i.Nome == pictureViewModel.Name);
-
-            if (pictures.Any())
-            {
-                NotificarErro("Já existe um arquivo com este nome!");
-                return false;
-            }
-
-            var picture = _mapper.Map<Picture>(pictureViewModel);
-
-            await _pictureRepository.Adicionar(picture);
-
             return true;
         }
 
@@ -159,61 +146,31 @@ namespace DBVBahia.Api.V1.Controllers
                 return CustomResponse(ModelState);
             }
 
-            if (produtoViewModel.Picture.ImagemUpload.Length > 5222510)
-            {
-                return BadRequest(new FileNotFoundException());
-            }
-
-            if (!await UploadArquivoAlternativo(produtoViewModel.Picture))
+            if (!ValidUploadArquivoAlternativo(produtoViewModel.Picture))
             {
                 return CustomResponse(ModelState);
             }
 
-            var pictures = await _pictureRepository.Buscar(i => i.Nome == produtoViewModel.Picture.ImagemUpload.FileName);
+            var product = _mapper.Map<Produto>(produtoViewModel);
 
-            produtoViewModel.Picture = _mapper.Map<PictureViewModel>(pictures.FirstOrDefault());
-            await _produtoService.Adicionar(_mapper.Map<Produto>(produtoViewModel));
+            await UpdateProdutoInFornecedor(product);
 
             return CustomResponse(produtoViewModel);
         }
 
-        [HttpPost("imagem")]
-        public ActionResult AdicionarImagem(IFormFile file)
+        private bool ValidUploadArquivoAlternativo(PictureViewModel pictureViewModel)
         {
-            return Ok(file);
-        }
+            if (pictureViewModel.ImagemUpload.Length > 5222510)
+            {
+                NotificarErro("Tamanho de imagem excedido. Máximo permitido é 5MB!");
+                return false;
+            }
 
-        private async Task<bool> UploadArquivoAlternativo(PictureViewModel pictureViewModel)
-        {
             if (pictureViewModel is null || pictureViewModel.ImagemUpload == null || pictureViewModel.ImagemUpload.Length == 0)
             {
                 NotificarErro("Forneça uma imagem para este produto!");
                 return false;
             }
-
-            var pictures = await _pictureRepository.Buscar(i => i.Nome == pictureViewModel.Name);
-
-            if (pictures.Any())
-            {
-                NotificarErro("Já existe um arquivo com este nome!");
-                return false;
-            }
-
-            var picture = _mapper.Map<Picture>(pictureViewModel);
-
-            var file = pictureViewModel.ImagemUpload.OpenReadStream();
-            byte[] fileToSave;
-
-            using (MemoryStream ms = new MemoryStream())
-            {
-                await file.CopyToAsync(ms);
-                fileToSave = ms.ToArray();
-            }
-
-            picture.Image = fileToSave;
-
-            await _pictureRepository.Adicionar(picture);
-
             return true;
         }
         #endregion UploadAlternativo
