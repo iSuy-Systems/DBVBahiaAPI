@@ -97,6 +97,11 @@ namespace DBVBahia.Api.V1.Controllers
 
             if (!ModelState.IsValid) return CustomResponse(ModelState);
 
+            if (!string.IsNullOrEmpty(produtoViewModel.Picture.ImagemUpload64))
+            {
+                produtoAtualizacao.Picture = produtoViewModel.Picture;
+            }
+
             produtoAtualizacao.FornecedorId = produtoViewModel.FornecedorId;
             produtoAtualizacao.Nome = produtoViewModel.Nome;
             produtoAtualizacao.Descricao = produtoViewModel.Descricao;
