@@ -68,18 +68,20 @@ namespace DBVBahia.Api.V1.Controllers
             return CustomResponse(produtoViewModel);
         }
 
-        private async Task UpdateProdutoInFornecedor(Produto produto)
+        private async Task<bool> UpdateProdutoInFornecedor(Produto produto)
         {
             var fornecedor = await _fornecedorRepository.ObterPorId(produto.FornecedorId);
 
             if (fornecedor == null)
             {
                 NotificarErro("Fornecedor não encontrado");
+                return false;
             }
 
             fornecedor.Produtos.Add(produto);
 
             await _fornecedorRepository.Atualizar(fornecedor);
+            return true;
         }
 
         [HttpPut("{id:guid}")]
