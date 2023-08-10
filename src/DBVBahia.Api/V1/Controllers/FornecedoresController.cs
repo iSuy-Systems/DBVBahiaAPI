@@ -93,9 +93,15 @@ namespace DBVBahia.Api.V1.Controllers
         }
 
         [HttpGet("endereco/{id:guid}")]
-        public async Task<EnderecoViewModel> ObterEnderecoPorId(Guid id)
+        public async Task<ActionResult<EnderecoViewModel>> ObterEnderecoPorId(Guid id)
         {
-            return _mapper.Map<EnderecoViewModel>(await _enderecoRepository.ObterPorId(id));
+            var endereco = await _enderecoRepository.ObterPorId(id);
+
+            if(endereco == null) return NotFound();
+
+            var enderecoViewModel = _mapper.Map<EnderecoViewModel>(endereco);
+
+            return CustomResponse(enderecoViewModel);
         }
 
         [HttpPut("endereco/{id:guid}")]
