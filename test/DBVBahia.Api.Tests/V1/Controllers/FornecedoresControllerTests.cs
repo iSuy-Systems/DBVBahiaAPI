@@ -132,6 +132,63 @@ namespace DBVBahia.Api.Tests.V1.Controllers
         }
 
         [Fact]
+        public async Task Atualizar_DeveRetornarErroIdInformadoDiferenteDaQuery()
+        {
+            // Arrange
+            var idDiferente = Guid.NewGuid();
+            var fornecedorViewModel = new FornecedorViewModel
+            {
+                Id = Guid.NewGuid(),
+                Documento = "12345",
+                Ativo = true,
+                Nome = "Jods",
+                Produtos = new List<ProdutoViewModel>() { new ProdutoViewModel { Id = Guid.NewGuid() }, new ProdutoViewModel { Id = Guid.NewGuid() } },
+                TipoFornecedor = (int)TipoFornecedor.PessoaJuridica,
+                Endereco = new EnderecoViewModel { Id = Guid.NewGuid(), Logradouro = "Rua do test", Numero = "222", Cidade = "Aquela lá" }
+            };
+
+            _notificadorMock
+                .Setup(n=> n.TemNotificacao())
+                .Returns(true);
+
+            var notificationError = new Notificacao("Id Informado Diferente Do Enviado na Query");
+            var errors = new List<Notificacao>(){ notificationError};
+
+            _notificadorMock
+                .Setup(n => n.ObterNotificacoes())
+                .Returns(errors);
+
+            var controller = new FornecedoresController(
+                         _fornecedorRepositoryMock.Object,
+                         _mapperMock.Object,
+                         _fornecedorServiceMock.Object,
+                         _notificadorMock.Object,
+                         _enderecoRepositoryMock.Object,
+                         _userMock.Object
+            );
+
+            // Act
+            var result = await controller.Atualizar(idDiferente, fornecedorViewModel);
+
+            // Assert
+            // Verifique se o resultado é um BadRequestObjectResult
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result.Result);
+
+            // Verifique se a propriedade "success" é falsa
+            var successProperty = badRequestResult.Value.GetType().GetProperty("success");
+            Assert.NotNull(successProperty);
+            var successValue = successProperty.GetValue(badRequestResult.Value);
+            Assert.IsType<bool>(successValue);
+            Assert.False((bool)successValue);
+
+            // Verifique se a propriedade "data" é do tipo correto (FornecedorViewModel)
+            var errorsProperty = badRequestResult.Value.GetType().GetProperty("errors");
+            Assert.NotNull(errorsProperty);
+            var errorsValue = errorsProperty.GetValue(badRequestResult.Value);
+            Assert.NotEmpty((IEnumerable<string>)errorsValue);
+        }
+
+        [Fact]
         public async Task Excluir_DeveRetornarOkResultQuandoExclusaoBemSucedida()
         {
             // Arrange
@@ -188,6 +245,27 @@ namespace DBVBahia.Api.Tests.V1.Controllers
             Assert.NotNull(dataProperty);
             var dataValue = dataProperty.GetValue(okResult.Value);
             Assert.IsType<FornecedorViewModel>(dataValue);
+        }
+        [Fact]
+        public async Task Excluir_DeveRetornarNotFoundFornecedor()
+        {
+            // Arrange
+            var idFornecedorInexistente = Guid.NewGuid();
+            var controller = new FornecedoresController(
+                 _fornecedorRepositoryMock.Object,
+                 _mapperMock.Object,
+                 _fornecedorServiceMock.Object,
+                 _notificadorMock.Object,
+                 _enderecoRepositoryMock.Object,
+                 _userMock.Object
+             );
+
+            // Act
+            var result = await controller.Excluir(idFornecedorInexistente);
+
+            // Assert
+            // Verifique se o resultado é um NotFoundResult
+            Assert.IsType<NotFoundResult>(result.Result);
         }
 
         [Fact]
