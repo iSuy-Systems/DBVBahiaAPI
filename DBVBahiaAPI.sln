@@ -3,11 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31815.197
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBVBahia.Api", "src\DBVBahia.Api\DBVBahia.Api.csproj", "{86F1D611-0E81-4E97-9D4C-5ED609E9FD52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBVBahia.Api", "src\DBVBahia.Api\DBVBahia.Api.csproj", "{86F1D611-0E81-4E97-9D4C-5ED609E9FD52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBVBahia.Business", "src\DBVBahia.Business\DBVBahia.Business.csproj", "{F6BE3679-360F-420C-AE6E-899DDB89DCC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBVBahia.Business", "src\DBVBahia.Business\DBVBahia.Business.csproj", "{F6BE3679-360F-420C-AE6E-899DDB89DCC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBVBahia.Data", "src\DBVBahia.Data\DBVBahia.Data.csproj", "{B0A020BE-B7EB-4E13-9B67-2814A4B48061}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBVBahia.Data", "src\DBVBahia.Data\DBVBahia.Data.csproj", "{B0A020BE-B7EB-4E13-9B67-2814A4B48061}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7DC49F4F-9960-4174-8F72-37B067E27D87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBVBahia.Api.Tests", "test\DBVBahia.Api.Tests\DBVBahia.Api.Tests.csproj", "{3A1A8F7A-EA23-492C-BA9C-1DC6F14070AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,9 +31,16 @@ Global
 		{B0A020BE-B7EB-4E13-9B67-2814A4B48061}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0A020BE-B7EB-4E13-9B67-2814A4B48061}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0A020BE-B7EB-4E13-9B67-2814A4B48061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A1A8F7A-EA23-492C-BA9C-1DC6F14070AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A1A8F7A-EA23-492C-BA9C-1DC6F14070AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A1A8F7A-EA23-492C-BA9C-1DC6F14070AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A1A8F7A-EA23-492C-BA9C-1DC6F14070AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3A1A8F7A-EA23-492C-BA9C-1DC6F14070AD} = {7DC49F4F-9960-4174-8F72-37B067E27D87}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {904489D1-BE18-47E7-BBDF-0D1D57C41653}

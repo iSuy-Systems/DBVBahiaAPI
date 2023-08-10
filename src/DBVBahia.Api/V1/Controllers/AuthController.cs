@@ -19,7 +19,7 @@ namespace DBVBahia.Api.V1.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly AppSettings _appSettings;
-        private readonly ILogger _logger;
+        private readonly ILogger<AuthController> _logger;
 
         public AuthController(INotificador notificador, 
                               SignInManager<IdentityUser> signInManager, 

@@ -14,7 +14,6 @@ namespace DBVBahia.Api.V1.Controllers
     public class ProdutosController : MainController
     {
         private readonly IProdutoRepository _produtoRepository;
-        private readonly IPictureRepository _pictureRepository;
         private readonly IProdutoService _produtoService;
         private readonly IMapper _mapper;
         private readonly IFornecedorRepository _fornecedorRepository;
@@ -24,13 +23,11 @@ namespace DBVBahia.Api.V1.Controllers
                                   IProdutoService produtoService,
                                   IMapper mapper,
                                   IUser user,
-                                  IPictureRepository pictureRepository,
                                   IFornecedorRepository fornecedorRepository) : base(notificador, user)
         {
             _produtoRepository = produtoRepository;
             _produtoService = produtoService;
             _mapper = mapper;
-            _pictureRepository = pictureRepository;
             _fornecedorRepository = fornecedorRepository;
         }
 
