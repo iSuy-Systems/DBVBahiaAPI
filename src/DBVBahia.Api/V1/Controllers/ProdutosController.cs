@@ -32,9 +32,17 @@ namespace DBVBahia.Api.V1.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProdutoViewModel>> ObterTodos()
+        public async Task<ActionResult<IEnumerable<ProdutoViewModel>>> ObterTodos()
         {
-            return _mapper.Map<IEnumerable<ProdutoViewModel>>(await _produtoRepository.ObterProdutosFornecedores());
+            var produtosViewModel = Enumerable.Empty<ProdutoViewModel>();
+
+            var produtos = await _produtoRepository.ObterProdutosFornecedores();
+
+            if(produtos.Any()) { 
+                produtosViewModel = _mapper.Map<IEnumerable<ProdutoViewModel>>(produtos);
+            }
+
+            return CustomResponse(produtosViewModel);
         }
 
         [HttpGet("{id:guid}")]
