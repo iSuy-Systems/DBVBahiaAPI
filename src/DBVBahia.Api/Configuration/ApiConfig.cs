@@ -72,8 +72,8 @@ namespace DBVBahia.Api.Configuration
 
             app.UseMiddleware<ExceptionMiddleware>();
 
-            AddMigrationsApplicationDBContext(app);
-            AddMigrationsDBVBahiaDbContext(app);
+            //AddMigrationsApplicationDBContext(app);
+            //AddMigrationsDBVBahiaDbContext(app);
 
             app.UseHttpsRedirection();
 
