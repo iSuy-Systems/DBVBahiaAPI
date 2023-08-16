@@ -1,7 +1,11 @@
-﻿using DBVBahia.Api.Extensions;
+﻿using DBVBahia.Api.Data;
+using DBVBahia.Api.Extensions;
+using DBVBahia.Data.Context;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace DBVBahia.Api.Configuration
 {
@@ -68,6 +72,9 @@ namespace DBVBahia.Api.Configuration
 
             app.UseMiddleware<ExceptionMiddleware>();
 
+            AddMigrationsApplicationDBContext(app);
+            AddMigrationsDBVBahiaDbContext(app);
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
@@ -98,6 +105,60 @@ namespace DBVBahia.Api.Configuration
             });
 
             return app;
+        }
+
+        private static void AddMigrationsApplicationDBContext(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var logger = serviceScope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                var db = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database;
+
+                logger.LogInformation("Migrating database...");
+
+                while (!db.CanConnect())
+                {
+                    logger.LogInformation("Database not ready yet; waiting...");
+                    Thread.Sleep(1000);
+                }
+
+                try
+                {
+                    serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>().Database.Migrate();
+                    logger.LogInformation("Database migrated successfully.");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred while migrating the database.");
+                }
+            }
+        }
+
+        private static void AddMigrationsDBVBahiaDbContext(IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var logger = serviceScope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+                var db = serviceScope.ServiceProvider.GetRequiredService<DBVBahiaDbContext>().Database;
+
+                logger.LogInformation("Migrating database...");
+
+                while (!db.CanConnect())
+                {
+                    logger.LogInformation("Database not ready yet; waiting...");
+                    Thread.Sleep(1000);
+                }
+
+                try
+                {
+                    serviceScope.ServiceProvider.GetRequiredService<DBVBahiaDbContext>().Database.Migrate();
+                    logger.LogInformation("Database migrated successfully.");
+                }
+                catch (Exception ex)
+                {
+                    logger.LogError(ex, "An error occurred while migrating the database.");
+                }
+            }
         }
     }
 }
