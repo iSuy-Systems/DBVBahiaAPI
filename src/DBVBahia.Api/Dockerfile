@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["src/DBVBahia.Api/DBVBahia.Api.csproj", "src/DBVBahia.Api/"]
-RUN dotnet restore "src/DBVBahia.Api/DBVBahia.Api.csproj"
+COPY ["DBVBahia.Api/DBVBahia.Api.csproj", "DBVBahia.Api/"]
+RUN dotnet restore "DBVBahia.Api/DBVBahia.Api.csproj"
 COPY . .
-WORKDIR "/src/src/DBVBahia.Api"
+WORKDIR "/src/DBVBahia.Api"
 RUN dotnet build "DBVBahia.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
