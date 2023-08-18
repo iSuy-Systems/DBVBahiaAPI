@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBVBahia.Data", "src\DBVBah
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{7DC49F4F-9960-4174-8F72-37B067E27D87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBVBahia.Api.Tests", "test\DBVBahia.Api.Tests\DBVBahia.Api.Tests.csproj", "{3A1A8F7A-EA23-492C-BA9C-1DC6F14070AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBVBahia.Api.Tests", "test\DBVBahia.Api.Tests\DBVBahia.Api.Tests.csproj", "{3A1A8F7A-EA23-492C-BA9C-1DC6F14070AD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
