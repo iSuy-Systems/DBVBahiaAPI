@@ -1,5 +1,6 @@
 ﻿using DBVBahia.Api.Data;
 using DBVBahia.Data.Context;
+using Microsoft.EntityFrameworkCore;
 
 namespace DBVBahia.Api.Configuration
 {
@@ -11,28 +12,22 @@ namespace DBVBahia.Api.Configuration
         /// Nuget package manager: Add-Migration DbInit -context CatalogContext
         /// Dotnet CLI: dotnet ef migrations add DbInit -c CatalogContext
         /// </summary>
-        public static async Task EnsureSeedData(WebApplication serviceScope)
+        public static void EnsureSeedData(WebApplication serviceScope)
         {
             var services = serviceScope.Services.CreateScope().ServiceProvider;
-            await EnsureSeedData(services);
+            EnsureSeedData(services);
         }
 
-        public static async Task EnsureSeedData(IServiceProvider serviceProvider)
+        public static void EnsureSeedData(IServiceProvider serviceProvider)
         {
             using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
             var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
 
-            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            var contextData = scope.ServiceProvider.GetRequiredService<DBVBahiaDbContext>();
+            var applicationDbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            applicationDbContext.Database.Migrate();
 
-            await DbHealthChecker.TestConnection(context);
-            await DbHealthChecker.TestConnection(contextData);
-
-            if (env.IsDevelopment() || env.IsEnvironment("Docker"))
-            {
-                await context.Database.EnsureCreatedAsync();
-                await contextData.Database.EnsureCreatedAsync();
-            }
+            var dbContextData = scope.ServiceProvider.GetRequiredService<DBVBahiaDbContext>();
+            dbContextData.Database.Migrate();
         }
     }
 

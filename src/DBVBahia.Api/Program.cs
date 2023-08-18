@@ -34,7 +34,7 @@ var app = builder.Build();
 var apiVersionDescriptionProvider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
 
 // Configure
-DbMigrationHelpers.EnsureSeedData(app).Wait();
+DbMigrationHelpers.EnsureSeedData(app);
 
 app.UseApiConfig(app.Environment);
 
